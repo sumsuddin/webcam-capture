@@ -2,9 +2,7 @@ package com.github.sarxos.webcam.ds.ipcam;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,6 +10,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import com.github.sarxos.webcam.Frame;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -49,7 +48,7 @@ public class IpCamDevice implements WebcamDevice {
 
 		private final Object lock = new Object();
 		private IpCamMJPEGStream stream = null;
-		private BufferedImage image = null;
+		private Frame frame = null;
 		private boolean running = true;
 		private WebcamException exception = null;
 		private HttpGet get = null;
@@ -110,9 +109,9 @@ public class IpCamDevice implements WebcamDevice {
 
 					processing = false;
 					try {
-						BufferedImage image = stream.readFrame();
-						if (image != null) {
-							this.image = image;
+						Frame frame = stream.readFrame();
+						if (frame != null) {
+							this.frame = frame;
 						} else {
 							LOG.error("No image received from the stream");
 						}
@@ -167,11 +166,11 @@ public class IpCamDevice implements WebcamDevice {
 
 		}
 
-		public BufferedImage getImage() {
+		public Frame getFrame() {
 			if (exception != null) {
 				throw exception;
 			}
-			if (image == null) {
+			if (frame == null) {
 				try {
 					while (processing) {
 						synchronized (lock) {
@@ -184,7 +183,7 @@ public class IpCamDevice implements WebcamDevice {
 					throw new RuntimeException("Problem waiting on lock", e);
 				}
 			}
-			return image;
+			return frame;
 		}
 
 		public void stop() {
@@ -273,7 +272,7 @@ public class IpCamDevice implements WebcamDevice {
 
 		int attempts = 0;
 		do {
-			BufferedImage img = getImage();
+			BufferedImage img = getFrame().getImage();
 			if (img != null) {
 				sizes = new Dimension[] { new Dimension(img.getWidth(), img.getHeight()) };
 				break;
@@ -307,7 +306,7 @@ public class IpCamDevice implements WebcamDevice {
 	}
 
 	@Override
-	public synchronized BufferedImage getImage() {
+	public synchronized Frame getFrame() {
 
 		if (!open) {
 			return null;
@@ -327,7 +326,7 @@ public class IpCamDevice implements WebcamDevice {
 		throw new WebcamException(String.format("Unsupported mode %s", mode));
 	}
 
-	private BufferedImage getImagePushMode() {
+	private Frame getImagePushMode() {
 
 		if (pushReader == null) {
 
@@ -347,10 +346,10 @@ public class IpCamDevice implements WebcamDevice {
 			thread.start();
 		}
 
-		return pushReader.getImage();
+		return pushReader.getFrame();
 	}
 
-	private BufferedImage getImagePullMode() {
+	private Frame getImagePullMode() {
 
 		synchronized (this) {
 
@@ -391,8 +390,21 @@ public class IpCamDevice implements WebcamDevice {
 				if (is == null) {
 					return null;
 				}
+				byte[] bytes;
+				try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
 
-				return ImageIO.read(is);
+					int nRead;
+					byte[] data = new byte[16384];
+
+					while ((nRead = is.read(data, 0, data.length)) != -1) {
+						buffer.write(data, 0, nRead);
+					}
+
+					buffer.flush();
+
+					bytes = buffer.toByteArray();
+				}
+				return new Frame(ImageIO.read(new ByteArrayInputStream(bytes)), bytes);
 
 			} catch (IOException e) {
 

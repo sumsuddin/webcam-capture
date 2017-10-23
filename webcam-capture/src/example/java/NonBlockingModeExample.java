@@ -17,7 +17,7 @@ public class NonBlockingModeExample {
 		webcam.open(true);
 
 		for (int i = 0; i < 100; i++) {
-			webcam.getImage();
+			webcam.getFrame().getImage();
 			Thread.sleep(100);
 		}
 	}

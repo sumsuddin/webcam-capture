@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.Exchanger;
 import java.util.concurrent.TimeUnit;
 
+import com.github.sarxos.webcam.Frame;
 import org.freedesktop.gstreamer.Bin;
 import org.freedesktop.gstreamer.Caps;
 import org.freedesktop.gstreamer.Element;
@@ -384,14 +385,14 @@ public class Gst1Device implements WebcamDevice, Initializable {
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		initializer.initialize();
 
 		LOG.trace("Device {} get image", getName());
 
 		try {
-			return exchanger.exchange(null);
+			return new Frame(exchanger.exchange(null), null);
 		} catch (InterruptedException e) {
 			throw new WebcamException("Image exchange has been interrupted", e);
 		}

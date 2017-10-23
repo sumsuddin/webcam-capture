@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,11 +107,11 @@ public class LtiCivilDevice implements WebcamDevice, CaptureObserver, WebcamDevi
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 		if (!capturing) {
 			return null;
 		}
-		return AWTImageConverter.toBufferedImage(image);
+		return new Frame(AWTImageConverter.toBufferedImage(image), null);
 	}
 
 	@Override

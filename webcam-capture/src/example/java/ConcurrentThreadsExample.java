@@ -29,7 +29,7 @@ public class ConcurrentThreadsExample {
 					break;
 				}
 
-				BufferedImage image = webcam.getImage();
+				BufferedImage image = webcam.getFrame().getImage();
 				if (image == null) {
 					break;
 				}

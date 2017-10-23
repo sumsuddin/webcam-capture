@@ -243,7 +243,7 @@ public class SpycamMain extends JFrame implements Runnable, WebcamListener, Wind
 
 		LOG.info("{}: motion {}", idnum.incrementAndGet(), wme.getArea());
 
-		BufferedImage image = webcam.getImage();
+		BufferedImage image = webcam.getFrame().getImage();
 		if (image == null) {
 			return;
 		}

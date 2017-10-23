@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,7 +92,7 @@ public class IpCamMJPEGStream extends DataInputStream {
 		return 0;
 	}
 
-	public BufferedImage readFrame() throws IOException {
+	public Frame readFrame() throws IOException {
 
 		if (!open) {
 			return null;
@@ -129,7 +130,7 @@ public class IpCamMJPEGStream extends DataInputStream {
 		readFully(frame);
 
 		try {
-			return ImageIO.read(new ByteArrayInputStream(frame));
+			return new Frame(ImageIO.read(new ByteArrayInputStream(frame)), frame);
 		} catch (IOException e) {
 			return null;
 		}

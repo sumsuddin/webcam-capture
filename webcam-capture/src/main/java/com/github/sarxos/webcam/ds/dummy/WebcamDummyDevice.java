@@ -11,6 +11,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.github.sarxos.webcam.Frame;
 import com.github.sarxos.webcam.WebcamDevice;
 import com.github.sarxos.webcam.WebcamException;
 import com.github.sarxos.webcam.WebcamResolution;
@@ -74,7 +75,7 @@ public class WebcamDummyDevice implements WebcamDevice {
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		if (!isOpen()) {
 			throw new WebcamException("Webcam is not open");
@@ -124,7 +125,7 @@ public class WebcamDummyDevice implements WebcamDevice {
 		g2.dispose();
 		bi.flush();
 
-		return bi;
+		return new Frame(bi, null);
 	}
 
 	@Override

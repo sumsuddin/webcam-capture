@@ -149,7 +149,7 @@ public class JavaCvDevice implements WebcamDevice {
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public com.github.sarxos.webcam.Frame getFrame() {
 
 		if (!open) {
 			throw new WebcamException("Cannot grab image - webcam device is not open");
@@ -165,7 +165,7 @@ public class JavaCvDevice implements WebcamDevice {
 			throw new WebcamException("OpenCV image frame is null");
 		}
 
-		return new Java2DFrameConverter().convert(frame);
+		return new com.github.sarxos.webcam.Frame(new Java2DFrameConverter().convert(frame), null);
 	}
 
 	private OpenCVFrameGrabber buildGrabber() throws FrameGrabber.Exception {

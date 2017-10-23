@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.github.sarxos.webcam.Frame;
 import com.github.sarxos.webcam.WebcamDevice;
 import com.github.sarxos.webcam.WebcamException;
 
@@ -49,7 +50,7 @@ public class DummyDevice implements WebcamDevice {
 	private int y = r;
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		if (!open) {
 			throw new WebcamException("Not open");
@@ -72,8 +73,7 @@ public class DummyDevice implements WebcamDevice {
 		if (y <= 0 + r || y >= size.height - r) {
 			my = -my;
 		}
-
-		return bi;
+		return new Frame(bi, null);
 	}
 
 	@Override

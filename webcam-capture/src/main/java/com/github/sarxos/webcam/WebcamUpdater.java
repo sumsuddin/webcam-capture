@@ -101,9 +101,9 @@ public class WebcamUpdater implements Runnable {
 	private ScheduledExecutorService executor = null;
 
 	/**
-	 * Cached image.
+	 * Cached frame.
 	 */
-	private final AtomicReference<BufferedImage> image = new AtomicReference<BufferedImage>();
+	private final AtomicReference<Frame> image = new AtomicReference<>();
 
 	/**
 	 * Webcam to which this updater is attached.
@@ -158,7 +158,7 @@ public class WebcamUpdater implements Runnable {
 
 		if (running.compareAndSet(false, true)) {
 
-			image.set(new WebcamGetImageTask(Webcam.getDriver(), webcam.getDevice()).getImage());
+			image.set(new WebcamGetImageTask(Webcam.getDriver(), webcam.getDevice()).getFrame());
 
 			executor = Executors.newSingleThreadScheduledExecutor(THREAD_FACTORY);
 			executor.execute(this);
@@ -221,7 +221,7 @@ public class WebcamUpdater implements Runnable {
 		boolean imageOk = false;
 		long t1 = System.currentTimeMillis();
 		try {
-			image.set(webcam.transform(new WebcamGetImageTask(driver, device).getImage()));
+			image.set(new WebcamGetImageTask(driver, device).getFrame());
 			imageNew = true;
 			imageOk = true;
 		} catch (WebcamException e) {
@@ -257,7 +257,7 @@ public class WebcamUpdater implements Runnable {
 		// notify webcam listeners about the new image available
 
 		if (imageOk) {
-			webcam.notifyWebcamImageAcquired(image.get());
+			webcam.notifyWebcamImageAcquired(image.get().getImage());
 		}
 	}
 
@@ -270,7 +270,7 @@ public class WebcamUpdater implements Runnable {
 	 * 
 	 * @return Image stored in cache
 	 */
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		int i = 0;
 		while (image.get() == null) {

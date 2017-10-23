@@ -21,7 +21,7 @@ public class TakePictureDifferentSizeExample {
 		Webcam webcam = Webcam.getDefault();
 		webcam.setViewSize(new Dimension(1024, 768));
 		webcam.open();
-		ImageIO.write(webcam.getImage(), "PNG", new File("test.png"));
+		ImageIO.write(webcam.getFrame().getImage(), "PNG", new File("test.png"));
 		webcam.close();
 	}
 

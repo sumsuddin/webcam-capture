@@ -36,7 +36,7 @@ public class TakePictureExample2 {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String name = String.format("test-%d.jpg", System.currentTimeMillis());
-					ImageIO.write(webcam.getImage(), "JPG", new File(name));
+					ImageIO.write(webcam.getFrame().getImage(), "JPG", new File(name));
 					System.out.format("File %s has been saved\n", name);
 				} catch (IOException t) {
 					t.printStackTrace();

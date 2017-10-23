@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,10 +64,10 @@ public class ScreenCaptureDevice implements WebcamDevice {
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 		final GraphicsConfiguration gc = device.getDefaultConfiguration();
 		final Rectangle bounds = gc.getBounds();
-		return robot.createScreenCapture(bounds);
+		return new Frame(robot.createScreenCapture(bounds), null);
 	}
 
 	@Override

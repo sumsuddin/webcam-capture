@@ -53,7 +53,7 @@ public class Application {
 		}
 
 		public BufferedImage getImage() {
-			return webcam.getImage();
+			return webcam.getFrame().getImage();
 		}
 	}
 

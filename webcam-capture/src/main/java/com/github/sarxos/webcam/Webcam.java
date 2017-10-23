@@ -256,7 +256,7 @@ public class Webcam {
 	 * (asynchronous) mode.The difference between those two modes lies in the
 	 * image acquisition mechanism.<br>
 	 * <br>
-	 * In blocking mode, when user calls {@link #getImage()} method, device is
+	 * In blocking mode, when user calls {@link #getFrame()} method, device is
 	 * being queried for new image buffer and user have to wait for it to be
 	 * available.<br>
 	 * <br>
@@ -649,7 +649,7 @@ public class Webcam {
 	 *
 	 * @return Captured image or null if webcam is closed or disposed by JVM
 	 */
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		if (!isReady()) {
 			return null;
@@ -659,16 +659,16 @@ public class Webcam {
 		long t2 = 0;
 
 		if (asynchronous) {
-			return updater.getImage();
+			return updater.getFrame();
 		} else {
 
 			// get image
 
 			t1 = System.currentTimeMillis();
-			BufferedImage image = transform(new WebcamGetImageTask(driver, device).getImage());
+			Frame frame = new WebcamGetImageTask(driver, device).getFrame();
 			t2 = System.currentTimeMillis();
 
-			if (image == null) {
+			if (frame == null) {
 				return null;
 			}
 
@@ -683,9 +683,9 @@ public class Webcam {
 
 			// notify webcam listeners about new image available
 
-			notifyWebcamImageAcquired(image);
+			notifyWebcamImageAcquired(frame.getImage());
 
-			return image;
+			return frame;
 		}
 	}
 

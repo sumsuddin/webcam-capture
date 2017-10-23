@@ -111,7 +111,7 @@ public interface WebcamDevice {
 	 * 
 	 * @return Image
 	 */
-	BufferedImage getImage();
+	Frame getFrame();
 
 	/**
 	 * Open device, it can be closed any time.

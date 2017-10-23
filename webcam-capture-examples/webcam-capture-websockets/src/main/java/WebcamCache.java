@@ -53,7 +53,7 @@ public class WebcamCache implements WebcamUpdater.DelayCalculator, WebcamListene
 	public static BufferedImage getImage(String name) {
 		Webcam webcam = CACHE.webcams.get(name);
 		try {
-			return webcam.getImage();
+			return webcam.getFrame().getImage();
 		} catch (Exception e) {
 			LOG.error("Exception when getting image from webcam", e);
 		}

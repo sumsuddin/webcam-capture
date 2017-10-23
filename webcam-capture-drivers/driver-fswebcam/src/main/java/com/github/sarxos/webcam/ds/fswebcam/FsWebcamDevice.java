@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.imageio.ImageIO;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -193,14 +194,14 @@ public class FsWebcamDevice implements WebcamDevice, Configurable {
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 		counter++;
 
 		if (!open.get()) {
 			return null;
 		}
 
-		BufferedImage image = null;
+		Frame frame = null;
 
 		try {
 
@@ -211,10 +212,10 @@ public class FsWebcamDevice implements WebcamDevice, Configurable {
 			} catch (FileNotFoundException e) {
 				throw new RuntimeException(e);
 			}
-
-			ByteArrayInputStream bais = new ByteArrayInputStream(readBytes());
+			byte[] bytes = readBytes();
+			ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
 			try {
-				image = ImageIO.read(bais);
+				frame = new Frame(ImageIO.read(bais), bytes);
 			} catch (IOException e) {
 				process.destroy();
 				throw new RuntimeException(e);
@@ -252,7 +253,7 @@ public class FsWebcamDevice implements WebcamDevice, Configurable {
 			}
 		}
 
-		return image;
+		return frame;
 	}
 
 	private void executeFsWebcamProcess() throws IOException {

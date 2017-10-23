@@ -76,7 +76,7 @@ public class FacePainterExample extends JFrame implements Runnable, WebcamPanel.
 			if (!webcam.isOpen()) {
 				return;
 			}
-			faces = detector.detectFaces(ImageUtilities.createFImage(webcam.getImage()));
+			faces = detector.detectFaces(ImageUtilities.createFImage(webcam.getFrame().getImage()));
 		}
 	}
 

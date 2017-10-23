@@ -168,7 +168,7 @@ public class WebcamComposite extends Composite implements WebcamListener, PaintL
 
 			BufferedImage bi = null;
 			try {
-				bi = webcam.getImage();
+				bi = webcam.getFrame().getImage();
 			} catch (Throwable t) {
 				LOG.error("Exception when getting image", t);
 			}

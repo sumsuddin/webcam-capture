@@ -112,7 +112,7 @@ Code below will capture image from your default webcam and save it in ```hello-w
 ```java
 Webcam webcam = Webcam.getDefault();
 webcam.open();
-ImageIO.write(webcam.getImage(), "PNG", new File("hello-world.png"));
+ImageIO.write(webcam.getFrame().getImage(), "PNG", new File("hello-world.png"));
 ```
 
 ## More Examples!

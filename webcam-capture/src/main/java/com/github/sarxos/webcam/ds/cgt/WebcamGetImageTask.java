@@ -2,6 +2,7 @@ package com.github.sarxos.webcam.ds.cgt;
 
 import java.awt.image.BufferedImage;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,13 +15,13 @@ public class WebcamGetImageTask extends WebcamTask {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WebcamGetImageTask.class);
 
-	private volatile BufferedImage image = null;
+	private volatile Frame frame = null;
 
 	public WebcamGetImageTask(WebcamDriver driver, WebcamDevice device) {
 		super(driver, device);
 	}
 
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		try {
 			process();
@@ -29,7 +30,7 @@ public class WebcamGetImageTask extends WebcamTask {
 			return null;
 		}
 
-		return image;
+		return frame;
 	}
 
 	@Override
@@ -40,6 +41,6 @@ public class WebcamGetImageTask extends WebcamTask {
 			return;
 		}
 
-		image = device.getImage();
+		frame = device.getFrame();
 	}
 }

@@ -169,7 +169,7 @@ public class WebCamPreviewController implements Initializable {
 
 				while (!stopCamera) {
 					try {
-						if ((grabbedImage = selWebCam.getImage()) != null) {
+						if ((grabbedImage = selwebcam.getFrame().getImage()) != null) {
 
 							Platform.runLater(new Runnable() {
 

@@ -208,7 +208,7 @@ public class WebCamAppLauncher extends Application {
 
 				while (!stopCamera) {
 					try {
-						if ((img = webCam.getImage()) != null) {
+						if ((img = webcam.getFrame().getImage()) != null) {
 
 							ref.set(SwingFXUtils.toFXImage(img, ref.get()));
 							img.flush();

@@ -19,7 +19,7 @@ public class WebcamUtils {
 			webcam.open();
 		}
 		try {
-			ImageIO.write(webcam.getImage(), ImageUtils.FORMAT_JPG, file);
+			ImageIO.write(webcam.getFrame().getImage(), ImageUtils.FORMAT_JPG, file);
 		} catch (IOException e) {
 			throw new WebcamException(e);
 		}
@@ -30,7 +30,7 @@ public class WebcamUtils {
 			webcam.open();
 		}
 		try {
-			ImageIO.write(webcam.getImage(), format, file);
+			ImageIO.write(webcam.getFrame().getImage(), format, file);
 		} catch (IOException e) {
 			throw new WebcamException(e);
 		}
@@ -52,7 +52,7 @@ public class WebcamUtils {
 	}
 
 	public static final byte[] getImageBytes(Webcam webcam, String format) {
-		return ImageUtils.toByteArray(webcam.getImage(), format);
+		return ImageUtils.toByteArray(webcam.getFrame().getImage(), format);
 	}
 
 	/**

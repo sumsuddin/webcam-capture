@@ -76,7 +76,7 @@ public class QrCapture extends JFrame implements Closeable {
 		if (!webcam.isOpen()) {
 			return;
 		}
-		if ((image = webcam.getImage()) == null) {
+		if ((image = webcam.getFrame().getImage()) == null) {
 			return;
 		}
 

@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -348,7 +349,7 @@ public class VlcjDevice implements WebcamDevice, BufferFormatCallback, RenderCal
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		if (!open.get()) {
 			throw new WebcamException("Cannot get image, webcam device is not open");
@@ -366,7 +367,7 @@ public class VlcjDevice implements WebcamDevice, BufferFormatCallback, RenderCal
 			}
 		}
 
-		return image;
+		return new Frame(image, null);
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class CustomResolutionExample {
 		webcam.setViewSize(WebcamResolution.HD.getSize());
 		webcam.open();
 
-		BufferedImage image = webcam.getImage();
+		BufferedImage image = webcam.getFrame().getImage();
 
 		System.out.println(image.getWidth() + "x" + image.getHeight());
 	}

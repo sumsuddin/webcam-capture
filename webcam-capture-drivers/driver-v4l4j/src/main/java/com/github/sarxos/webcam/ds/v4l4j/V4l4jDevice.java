@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -281,7 +282,7 @@ public class V4l4jDevice implements WebcamDevice, CaptureCallback, WebcamDevice.
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		if (!open.get()) {
 			throw new RuntimeException("Cannot get image from closed device");
@@ -294,7 +295,7 @@ public class V4l4jDevice implements WebcamDevice, CaptureCallback, WebcamDevice.
 
 		int timeout = 3;
 		try {
-			return exchanger.exchange(null, timeout, TimeUnit.SECONDS);
+			return new Frame(exchanger.exchange(null, timeout, TimeUnit.SECONDS), null);
 		} catch (InterruptedException e) {
 			return null;
 		} catch (TimeoutException e) {

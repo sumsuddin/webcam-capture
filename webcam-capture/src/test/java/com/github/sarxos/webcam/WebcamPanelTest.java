@@ -23,7 +23,7 @@ public class WebcamPanelTest {
 		w.open();
 		p.repaint();
 
-		final BufferedImage bi = w.getImage();
+		final BufferedImage bi = w.getFrame().getImage();
 		final Dimension d = p.getPreferredSize();
 
 		Assertions

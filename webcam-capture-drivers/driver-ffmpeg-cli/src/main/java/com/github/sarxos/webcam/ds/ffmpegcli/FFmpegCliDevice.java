@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.imageio.ImageIO;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,15 +148,15 @@ public class FFmpegCliDevice implements WebcamDevice, WebcamDevice.BufferAccess 
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		if (!open.get()) {
 			return null;
 		}
-
-		ByteArrayInputStream bais = new ByteArrayInputStream(readBytes());
+		byte[] bytes = readBytes();
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
 		try {
-			return ImageIO.read(bais);
+			return new Frame(ImageIO.read(bais), bytes);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {

@@ -22,7 +22,7 @@ public class TakePictureExample {
 		webcam.open();
 
 		// get image
-		BufferedImage image = webcam.getImage();
+		BufferedImage image = webcam.getFrame().getImage();
 
 		// save image to PNG file
 		ImageIO.write(image, "PNG", new File("test.png"));

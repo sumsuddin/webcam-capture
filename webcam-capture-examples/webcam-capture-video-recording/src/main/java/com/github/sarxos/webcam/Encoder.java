@@ -34,7 +34,7 @@ public class Encoder {
 
 			System.out.println("Capture frame " + i);
 
-			BufferedImage image = ConverterFactory.convertToType(webcam.getImage(), BufferedImage.TYPE_3BYTE_BGR);
+			BufferedImage image = ConverterFactory.convertToType(webcam.getFrame().getImage(), BufferedImage.TYPE_3BYTE_BGR);
 			IConverter converter = ConverterFactory.createConverter(image, IPixelFormat.Type.YUV420P);
 
 			IVideoPicture frame = converter.toPicture(image, (System.currentTimeMillis() - start) * 1000);

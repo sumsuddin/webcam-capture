@@ -118,7 +118,7 @@ public class WebcamStreamer implements ThreadFactory, WebcamListener {
 
 						long now = System.currentTimeMillis();
 						if (now > last + delay) {
-							image = webcam.getImage();
+							image = webcam.getFrame().getImage();
 						}
 
 						ImageIO.write(image, "JPG", baos);

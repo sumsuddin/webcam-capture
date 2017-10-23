@@ -138,7 +138,7 @@ public class StreamServerAgent implements IStreamServerAgent{
 		@Override
 		public void run() {
 			logger.info("image grabed ,count :{}",frameCount++);
-			BufferedImage bufferedImage = webcam.getImage();
+			BufferedImage bufferedImage = webcam.getFrame().getImage();
 			/**
 			 * using this when the h264 encoder is added to the pipeline
 			 * */

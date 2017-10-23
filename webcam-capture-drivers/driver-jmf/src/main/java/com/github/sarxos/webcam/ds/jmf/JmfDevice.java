@@ -27,6 +27,7 @@ import javax.media.control.FrameGrabbingControl;
 import javax.media.format.VideoFormat;
 import javax.media.util.BufferToImage;
 
+import com.github.sarxos.webcam.Frame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -277,7 +278,7 @@ public class JmfDevice implements WebcamDevice {
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		if (!open) {
 			throw new RuntimeException("Webcam has to be open to get image");
@@ -301,7 +302,7 @@ public class JmfDevice implements WebcamDevice {
 		g2.dispose();
 		buffered.flush();
 
-		return buffered;
+		return new Frame(buffered, null);
 	}
 
 	@Override
@@ -346,7 +347,7 @@ public class JmfDevice implements WebcamDevice {
 		}
 
 		do {
-			BufferedImage image = getImage();
+			BufferedImage image = getFrame().getImage();
 			if (image != null) {
 				break;
 			}

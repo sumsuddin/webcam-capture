@@ -15,16 +15,12 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.github.sarxos.webcam.*;
 import org.bridj.Pointer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.sarxos.webcam.WebcamDevice;
 import com.github.sarxos.webcam.WebcamDevice.BufferAccess;
-import com.github.sarxos.webcam.WebcamException;
-import com.github.sarxos.webcam.WebcamExceptionHandler;
-import com.github.sarxos.webcam.WebcamResolution;
-import com.github.sarxos.webcam.WebcamTask;
 import com.github.sarxos.webcam.ds.buildin.natives.Device;
 import com.github.sarxos.webcam.ds.buildin.natives.DeviceList;
 import com.github.sarxos.webcam.ds.buildin.natives.OpenIMAJGrabber;
@@ -274,7 +270,7 @@ public class WebcamDefaultDevice implements WebcamDevice, BufferAccess, Runnable
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		ByteBuffer buffer = getImageBytes();
 
@@ -293,8 +289,7 @@ public class WebcamDefaultDevice implements WebcamDevice, BufferAccess, Runnable
 
 		BufferedImage bi = new BufferedImage(cmodel, raster, false, null);
 		bi.flush();
-
-		return bi;
+		return new Frame(bi, null);
 	}
 
 	@Override

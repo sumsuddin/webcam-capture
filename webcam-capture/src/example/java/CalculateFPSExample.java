@@ -17,10 +17,10 @@ public class CalculateFPSExample {
 		for (int k = 0; k < p; k++) {
 
 			webcam.open();
-			webcam.getImage();
+			webcam.getFrame().getImage();
 
 			t1 = System.currentTimeMillis();
-			for (int i = 0; ++i <= r; webcam.getImage()) {
+			for (int i = 0; ++i <= r; webcam.getFrame().getImage()) {
 			}
 			t2 = System.currentTimeMillis();
 

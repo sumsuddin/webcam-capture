@@ -45,7 +45,7 @@ public class WebcamImageTransformerExample implements WebcamImageTransformer {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				try {
-					ImageIO.write(webcam.getImage(), "PNG", new File("capture.png"));
+					ImageIO.write(webcam.getFrame().getImage(), "PNG", new File("capture.png"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

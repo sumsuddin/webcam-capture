@@ -248,7 +248,7 @@ public class WebcamMotionDetector {
 			return;
 		}
 
-		BufferedImage currentOriginal = webcam.getImage();
+		BufferedImage currentOriginal = webcam.getFrame().getImage();
 
 		if (currentOriginal == null) {
 			motion = false;

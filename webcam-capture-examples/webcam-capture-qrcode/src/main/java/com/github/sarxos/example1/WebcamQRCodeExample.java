@@ -75,7 +75,7 @@ public class WebcamQRCodeExample extends JFrame implements Runnable, ThreadFacto
 
 			if (webcam.isOpen()) {
 
-				if ((image = webcam.getImage()) == null) {
+				if ((image = webcam.getFrame().getImage()) == null) {
 					continue;
 				}
 

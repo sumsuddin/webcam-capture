@@ -563,7 +563,7 @@ public class WebcamPanel extends JPanel implements WebcamListener, PropertyChang
 
 			// get new image from webcam
 
-			BufferedImage tmp = webcam.getImage();
+			BufferedImage tmp = webcam.getFrame().getImage();
 			boolean repaint = true;
 
 			if (tmp != null) {

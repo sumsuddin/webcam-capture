@@ -107,7 +107,7 @@ public class Gst1Driver implements WebcamDriver {
 			System.out.println(d);
 			d.getResolutions();
 			d.open();
-			ImageIO.write(d.getImage(), "JPG", new File("a.jpg"));
+			ImageIO.write(d.getFrame().getImage(), "JPG", new File("a.jpg"));
 			d.close();
 		}
 

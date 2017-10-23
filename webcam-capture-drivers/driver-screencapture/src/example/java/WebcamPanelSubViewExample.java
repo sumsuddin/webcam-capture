@@ -45,7 +45,7 @@ public class WebcamPanelSubViewExample {
 			dp.paintImage(owner, image, g2);
 			g2.setColor(Color.BLACK);
 			g2.drawRect(x - 1, y - 1, w + 1, h + 1);
-			g2.drawImage(webcam.getImage(), x, y, w, h, null);
+			g2.drawImage(webcam.getFrame().getImage(), x, y, w, h, null);
 		}
 
 		@Override

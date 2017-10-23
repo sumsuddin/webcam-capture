@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.github.sarxos.webcam.Frame;
 import org.bridj.Platform;
 import org.gstreamer.Caps;
 import org.gstreamer.Element;
@@ -80,7 +81,7 @@ public class GStreamerDevice implements WebcamDevice, RGBDataSink.Listener, Webc
 	private AtomicBoolean starting = new AtomicBoolean(false);
 	private AtomicBoolean initialized = new AtomicBoolean(false);
 	private Dimension resolution = WebcamResolution.VGA.getSize();
-	private BufferedImage image = null;
+	private Frame frame = null;
 
 	/* used to calculate fps */
 
@@ -92,7 +93,6 @@ public class GStreamerDevice implements WebcamDevice, RGBDataSink.Listener, Webc
 	/**
 	 * Create GStreamer webcam device.
 	 *
-	 * @param name the name of webcam device
 	 */
 	protected GStreamerDevice(GStreamerDriver driver, int deviceIndex) {
 		this.driver = driver;
@@ -251,8 +251,8 @@ public class GStreamerDevice implements WebcamDevice, RGBDataSink.Listener, Webc
 	}
 
 	@Override
-	public BufferedImage getImage() {
-		return image;
+	public Frame getFrame() {
+		return frame;
 	}
 
 	@Override
@@ -270,9 +270,10 @@ public class GStreamerDevice implements WebcamDevice, RGBDataSink.Listener, Webc
 
 		Dimension size = getResolution();
 
-		image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
 		image.setAccelerationPriority(0);
 		image.flush();
+		frame = new Frame(image, null);
 
 		if (caps != null) {
 			caps.dispose();
@@ -353,7 +354,7 @@ public class GStreamerDevice implements WebcamDevice, RGBDataSink.Listener, Webc
 
 		pipelineStop();
 
-		image = null;
+		frame = null;
 	}
 
 	@Override
@@ -395,7 +396,7 @@ public class GStreamerDevice implements WebcamDevice, RGBDataSink.Listener, Webc
 		rgb.get(((DataBufferInt) tmp.getRaster().getDataBuffer()).getData(), 0, width * height);
 		tmp.flush();
 
-		image = tmp;
+		frame = new Frame(tmp, null);
 
 		if (starting.compareAndSet(true, false)) {
 

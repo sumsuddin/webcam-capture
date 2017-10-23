@@ -3,6 +3,7 @@ package com.github.sarxos.webcam.ds.openimaj;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
+import com.github.sarxos.webcam.Frame;
 import org.openimaj.image.ImageUtilities;
 import org.openimaj.video.capture.Device;
 import org.openimaj.video.capture.VideoCapture;
@@ -66,14 +67,14 @@ public class OpenImajDevice implements WebcamDevice {
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public Frame getFrame() {
 
 		if (!open) {
 			throw new RuntimeException("Cannot get image from closed device");
 		}
 
 		// TODO scale to dimension if not equal
-		return ImageUtilities.createBufferedImageForDisplay(capture.getNextFrame());
+		return new Frame(ImageUtilities.createBufferedImageForDisplay(capture.getNextFrame()), null);
 	}
 
 	@Override

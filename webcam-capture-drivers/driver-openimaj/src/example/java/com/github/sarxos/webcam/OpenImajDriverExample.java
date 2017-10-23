@@ -25,7 +25,7 @@ public class OpenImajDriverExample {
 		webcam.open();
 
 		// get image
-		BufferedImage image = webcam.getImage();
+		BufferedImage image = webcam.getFrame().getImage();
 
 		// close camera
 		webcam.close();

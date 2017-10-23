@@ -108,7 +108,7 @@ public class WebcamStaticsTest {
 
 		Assert.assertSame(DummyDriver.class, Webcam.getDriver().getClass());
 
-		Image image = webcam.getImage();
+		Image image = webcam.getFrame().getImage();
 
 		Assert.assertNotNull(image);
 
