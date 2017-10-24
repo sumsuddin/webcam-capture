@@ -23,7 +23,7 @@ public class Frame {
         if (encodedImage != null) {
             return encodedImage;
         } else if (image != null) {
-            return toByteArray(image);
+            return encodedImage = toByteArray(image);
         } else {
             return null;
         }
